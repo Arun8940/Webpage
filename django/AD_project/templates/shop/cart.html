@@ -1,0 +1,92 @@
+{% extends 'shop/laylot/main.html' %}
+{% block title %}
+  Cart | ShopKart
+{% endblock title %}
+{% block content %}
+<section class="bg-light py-4 my-5" style="min-height:600px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h4 class="mb-3">Cart Items</h4>
+        <hr style="border-color:#b8bfc2;">
+      </div>
+
+      {% if cart %}
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Image</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Product Size</th>
+              <th scope="col">Unit</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart %}
+            <tr>
+              <td><img src="{{item.product.product_image.url}}" height="75px" alt="{{item.product.name}}"></td>
+              <td>{{item.product.name}}</td>
+              <td>{{item.product_size}}</td>
+              <td>{{item.product.selling_price | stringformat:'d'}}</td>
+              <td>{{item.product_qty}}</td>
+              <td class="amt">{{item.total_cost | stringformat:'d'}}</td>
+              <td><a href="{% url 'remove_cart' item.id %}"  onclick="return confirm('Are you sure you want to remove this item?')"  class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Remove</a></td>
+            </tr>
+            {% endfor %}
+            <tr>
+              <td colspan="4"></td>
+              <td><b>Total Amount</b></td>
+              <td id="net">Rs: 0</td>
+              <td><button class="btn btn-primary btn-sm">
+                <i class="fa fa-check-circle"></i> Check Out
+              </button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="col-12">
+        <p class="text-center">Your cart is currently empty. <a href="{% url 'shop_home' %}">Continue Shopping</a></p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const nodes = document.querySelectorAll('.amt');
+    const arr = Array.from(nodes);
+    const res = arr.reduce((acc, curr) => acc + Number(curr.textContent), 0);
+    const netElement = document.getElementById("net");
+    netElement.innerHTML = "Rs: " + res;
+    netElement.animate([{opacity: 0}, {opacity: 1}], {duration: 500, fill: 'forwards'});
+  });
+</script>
+
+<style>
+  .table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease;
+  }
+
+  .table thead th {
+    background-color: #343a40;
+    color: #fff;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+  }
+</style>
+{% endblock content %}

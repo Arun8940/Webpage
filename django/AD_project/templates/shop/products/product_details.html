@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Mamboo | Online Shopping</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .breadcrumb {
+            background-color: transparent;
+            padding-left: 0;
+        }
+
+        .breadcrumb-item a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .breadcrumb-item.active {
+            color: #6c757d;
+        }
+
+        .pic-box {
+            position: relative;
+        }
+
+        .pic-box img {
+            width: 100%;
+            height: auto;
+            max-width: 280px; /* Adjusted for better visibility */
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin: auto;
+            transition: transform 0.3s ease;
+        }
+
+        /* .pic-box img:hover {
+            transform: scale(1.05);
+        } */
+
+        .Sale {
+            background-color: red;
+            color: white;
+            font-weight: bold;
+            display: inline;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            top: 0px;
+            right: 80px;
+            z-index: 20;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .pic-box:hover .Sale {
+            transform: scale(1.2);
+        }
+
+        .product-details {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-details h5, .product-details p, .product-details h6 {
+            font-size: 1rem; /* Adjusted text size */
+        }
+
+        .product-details h5 {
+            margin-bottom: 0.5rem;
+        }
+
+        .old_price {
+            font-weight: bold;
+            color: #dc3545;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .new_price {
+            font-weight: bold;
+            color: #1e852b;
+            font-size: 1.2rem;
+        }
+
+        .product-actions {
+            margin-top: 20px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .quantity-control button {
+            width: 30px;
+            height: 30px;
+            font-size: 1rem;
+            padding: 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .quantity-control button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .quantity-control input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: scale(1.05);
+        }
+
+        .rating {
+            color: #ffc107;
+            margin-bottom: 15px;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .vendor, .rating {
+            font-size: 0.9rem;
+        }
+
+        .description {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .product-actions .fa {
+            margin-right: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .pic-box, .product-details {
+                text-align: center;
+            }
+
+            .product-details {
+                margin-top: 20px;
+            }
+
+            .product-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .product-actions .quantity-control,
+            .product-actions button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .product-actions button:last-child {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+  {% extends 'shop/laylot/main.html' %}
+  {% block content %}
+  {% include 'shop/ins/slider.html' %}
+  <div class="container" style="margin-top:70px;">
+    <div class="row">
+      <div class="col-12" >
+        <h4 class="mb-3">{{ products.name }} Details</h4>
+        <hr style="border-color:#b8bfc2;">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'collections' products.category.name %}">Collections</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ products.name }}</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="col-md-4 my-3 pic-box">
+        {% if products.trending %}
+        <div class="Sale">HOT SALE</div>
+        {% endif %}
+          <img src="{{ products.product_image.url }}" class="card-image-top" alt="{{ products.name }}">
+      </div>
+      <div class="col-md-8 my-3 product-details">
+        <h5 class="text-primary">{{ products.name }}</h5>
+        <div class="product-meta">
+          <span class="vendor"><strong>Vendor:</strong> {{ products.vendor }}</span>
+          <span class="rating"><i class="fa fa-star"></i> 4.5/5</span> <!-- Example rating -->
+        </div>
+        <p class="description">{{ products.description }}</p>
+        <div class="price">
+          <span class="old_price">Rs. {{ products.original_price }}</span>
+          <span class="new_price">Rs. {{ products.selling_price }}</span>
+        </div>
+        {% if products.quantity > 0 %}
+        <input type="hidden" value="{{products.id}}" id="pid">
+    
+        <div class="product-actions">
+          <div class="quantity-control">
+            <button id="btnMinus"><i class="fa fa-minus"></i></button>
+            <input type="text" name="qty" id="txtQty" value="1">
+            <button id="btnPlus"><i class="fa fa-plus"></i></button>
+          </div>
+
+          <div class="form-group" style="display: flex; align-items: center;">
+            <label for="dressSize" style="margin-right: 10px;"><b>Select Size:</b></label>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary " style="margin-right: 5px;">
+                    <input type="radio" name="size" id="sizeSmall" value="S"> S
+                </label>
+                <label class="btn btn-secondary" style="margin-right: 5px;">
+                    <input type="radio" name="size" id="sizeMedium" value="M"> M
+                </label>
+                <label class="btn btn-secondary" style="margin-right: 5px;">
+                    <input type="radio" name="size" id="sizeLarge" value="L"> L
+                </label>
+                <label class="btn btn-secondary" style="margin-right: 5px;">
+                    <input type="radio" name="size" id="sizeXL" value="XL"> XL
+                </label>
+                <label class="btn btn-secondary">
+                    <input type="radio" name="size" id="sizeXXL" value="XXl"> XXL
+                </label>
+            </div>
+         </div>
+            <button class="btn btn-primary" id="btnCart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+
+
+            <!-- <p>
+                <div class="input-group" style="width:150px">
+                  <button class="input-group-text bg-success text-light" id="btnMinus" ><i class="fa fa-minus"></i></button>
+                    <input type="text" name="qty" id="txtQty" value="1" class="form-control text-center">
+                  <button class="input-group-text bg-success text-light" id="btnPlus"><i class="fa fa-plus"></i></button>
+                </div>
+            </p>
+            <button class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to Cart</button> -->
+             
+
+          {% else %}
+            <button class="btn btn-secondary"><i class="fa fa-cart-minus"></i> Out of Stock</button>
+          {% endif %}
+         
+          <button class="btn btn-danger" id="btnFav"><i class="fa fa-heart"></i> Add to Favourite</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+    const btnPlus = document.getElementById("btnPlus");
+    const btnMinus = document.getElementById("btnMinus");
+    const txtQty = document.getElementById("txtQty");
+    const pid = document.getElementById("pid");
+    const btnCart = document.getElementById("btnCart");
+    const btnFav = document.getElementById("btnFav");
+
+    btnPlus.addEventListener("click", function() {
+        let qty = parseInt(txtQty.value, 10);
+        qty = isNaN(qty) ? 0 : qty;
+        if (qty < 10) {
+            qty++;
+            txtQty.value = qty;
+        }
+    });
+
+    btnMinus.addEventListener("click", function() {
+        let qty = parseInt(txtQty.value, 10);
+        qty = isNaN(qty) ? 0 : qty;
+        if (qty > 1) {
+            qty--;
+            txtQty.value = qty;
+        }
+    });
+
+    btnCart.addEventListener("click", function() {
+        let qty = parseInt(txtQty.value, 10);
+        qty = isNaN(qty) ? 0 : qty;
+
+        if (qty > 0) {
+            const size = document.querySelector('input[name="size"]:checked');
+            if (!size) {
+                alert("Please select a size.");
+                return;
+            }
+
+            let postObj = {
+                'product_qty': qty,
+                'pid': pid.value,
+                'product_size': size.value
+            };
+            console.log(postObj);
+            fetch("/addtocart", {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postObj)
+            }).then(response => {
+	        return response.json();
+        }).then(data => {
+        	//console.log(data);
+          alert(data['status']);
+        });
+ 
+
+      }else{
+        alert("Please Enter The Quantity");
+      }
+      
+  });
+
+  btnFav.addEventListener("click", function() {
+   
+
+            let postObj = {
+                'pid': pid.value,
+                
+            }
+            console.log(postObj);
+            fetch("/fav", {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postObj)
+            }).then(response => {
+	        return response.json();
+        }).then(data => {
+        	//console.log(data);
+          alert(data['status']);
+        });
+ 
+
+      
+      
+  });
+});
+
+
+</script>
+  {% endblock content %}
+
+  <!-- Font Awesome for icons -->
+
+</body>
+</html>

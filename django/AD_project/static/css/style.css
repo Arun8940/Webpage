@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Poetsen+One&display=swap');
+
+html{
+    font-size: 14px;
+
+}
+ body{
+    font-family:'NOTO SERIF';
+ }
+
+ a{
+    text-decoration: none;
+ }
+
+/* .carousel-item img{
+    object-fit:cover;
+    object-position: top;
+    height: 85vh;
+    overflow: hidden;
+} */
+
+
+
+
+  .old_price {
+    font-weight: bold;
+    color: #dc3545;
+    text-decoration: line-through;
+}
+
+.new_price {
+    font-weight: bold;
+    color: #1e852b;
+    font-size: 1.2rem;
+}
+
+.price-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+

@@ -1,0 +1,72 @@
+{% extends 'shop/laylot/main.html' %}
+{% block content %}
+  <section class="bg-light py-4 my-5" style="min-height:600px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="mb-3">Favorite Items</h4>
+          <hr style="border-color:#b8bfc2;">
+        </div>
+      
+        {% if fav %}
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in fav %}
+              <tr>
+                <td><img src="{{item.product.product_image.url}}" height="75px" alt="{{item.product.name}}"></td>
+                <td>{{item.product.name}}</td>
+                <td>{{item.product.selling_price | stringformat:'d'}}</td>
+                <td><a href="{% url 'remove_fav' item.id %}" onclick="return confirm('Are you sure you want to remove this item?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Remove</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="col-12">
+          <p class="text-center">You have no favorite items. <a href="{% url 'shop_home' %}">Continue Shopping</a></p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+<style>
+  .table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease;
+  }
+
+  .table thead th {
+    background-color: #343a40;
+    color: #fff;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+
+  .btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .table {
+    margin-bottom: 0;
+  }
+</style>
+{% endblock content %}

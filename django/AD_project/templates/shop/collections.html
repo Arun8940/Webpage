@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Mamboo | online Shoping</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .center-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      max-width: 400px;
+      width: 100%;
+      padding: 20px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+  {% extends 'shop/laylot/main.html' %}
+    {% block content %}
+    
+
+    <section class="py-5 text-center container"  style="margin-top:70px;">
+      <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <h1 class="fw-light"><b>Black Mamboo | Online Shoping</b></h1>
+          <p class="lead text-body-secondary">Discover sleek sophistication with Blackmamboo's online menswear collection. From tailored suits to casual essentials, elevate your style effortlessly. Experience timeless elegance with every click</p>
+          <p>
+            <a href="#" class="btn btn-primary my-2">Already User</a>
+            <a href="#" class="btn btn-secondary my-2">Register</a>
+          </p>
+        </div>
+      </div>
+    </section> 
+  
+    <section class="bg-light-py-4 my-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4 class="mb-0">Categories</h4>
+            </div>
+            <hr style="border-color: aliceblue;">
+          </div>
+    
+          {% for item in catagory %} 
+          <div class="col-md-4 col-lg-3">
+            <a href="{% url 'collections' item.name %}">
+            <div class="card my-3">
+              <img src="{{ item.image.url}}" class="card-image-top" alt="Categories">
+              <div class="card-body">
+                <h5 class="card-title text-primary">{{item.name}}</h5>
+                <p class="card-text">{{item.description}}</p>
+              </div>
+            </div>
+          </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    
+  
+  
+  {% endblock content %}
+
+</body>
+</html>
+
+
+
+
+
+
+
